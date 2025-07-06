@@ -3,35 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>现代响应式网页模板</title>
+    <title>实验室产品管理系统</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --accent: #4895ef;
+            --primary: #1a73e8;
+            --secondary: #0d47a1;
+            --accent: #4285f4;
             --light: #f8f9fa;
-            --dark: #212529;
-            --success: #4cc9f0;
-            --warning: #f72585;
+            --dark: #202124;
+            --gray: #5f6368;
+            --success: #34a853;
+            --warning: #ea4335;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             --transition: all 0.3s ease;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --radius: 8px;
         }
         
         body {
-            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
-            line-height: 1.6;
+            background-color: #f5f7fa;
             color: var(--dark);
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
+            line-height: 1.6;
         }
         
         .container {
@@ -43,32 +41,39 @@
         
         /* 头部样式 */
         header {
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: var(--shadow);
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(10px);
         }
         
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 15px 0;
         }
         
         .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
             display: flex;
             align-items: center;
         }
         
         .logo i {
+            font-size: 1.8rem;
+            color: var(--primary);
             margin-right: 10px;
-            color: var(--accent);
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .logo-text span {
+            color: var(--primary);
         }
         
         nav ul {
@@ -77,365 +82,510 @@
         }
         
         nav ul li {
-            margin-left: 30px;
+            margin-left: 25px;
         }
         
         nav ul li a {
             text-decoration: none;
-            color: var(--dark);
+            color: var(--gray);
             font-weight: 500;
             transition: var(--transition);
-            padding: 8px 12px;
-            border-radius: var(--radius);
+            padding: 8px 5px;
+            position: relative;
         }
         
-        nav ul li a:hover {
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+        }
+        
+        .btn-login {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            margin-right: 10px;
+        }
+        
+        .btn-login:hover {
+            background: rgba(26, 115, 232, 0.08);
+        }
+        
+        .btn-register {
             background: var(--primary);
             color: white;
         }
         
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
+        .btn-register:hover {
+            background: var(--secondary);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
             cursor: pointer;
-            color: var(--dark);
         }
         
-        /* 英雄区域 */
-        .hero {
-            padding: 100px 0;
-            text-align: center;
-            background: linear-gradient(rgba(67, 97, 238, 0.8), rgba(63, 55, 201, 0.9)), url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center/cover;
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
             color: white;
-            border-radius: 0 0 30px 30px;
-            margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: 600;
         }
         
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
-        
-        .btn {
-            display: inline-block;
-            background: var(--accent);
+        /* 搜索区域 */
+        .search-section {
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
             color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            border: 2px solid var(--accent);
-            margin: 10px 5px;
-            box-shadow: var(--shadow);
+            padding: 60px 0;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 40px;
         }
         
-        .btn:hover {
-            background: transparent;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid white;
-        }
-        
-        .btn-outline:hover {
-            background: white;
-            color: var(--primary);
-        }
-        
-        /* 特性区域 */
-        .features {
-            padding: 80px 0;
-        }
-        
-        .section-title {
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
             text-align: center;
-            margin-bottom: 50px;
         }
         
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--secondary);
+        .search-title {
+            font-size: 2.2rem;
             margin-bottom: 15px;
         }
         
-        .section-title p {
-            max-width: 700px;
-            margin: 0 auto;
-            color: #555;
+        .search-description {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .feature-card {
+        .search-box {
             background: white;
-            border-radius: var(--radius);
-            padding: 30px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-align: center;
+            border-radius: 8px;
+            padding: 5px;
+            display: flex;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
-        .feature-card:hover {
-            transform: translateY(-10px);
+        .search-input {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .search-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .search-btn:hover {
+            background: #3367d6;
+        }
+        
+        .search-filters {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 产品展示区 */
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+        }
+        
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            background: rgba(67, 97, 238, 0.1);
+        .product-image {
+            height: 180px;
+            background: #e8f0fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 3rem;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-category {
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .product-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .spec-item {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .spec-item i {
+            margin-right: 5px;
+            color: var(--primary);
+        }
+        
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .product-price {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2rem;
-            color: var(--primary);
+            background: #f1f3f4;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
         }
         
-        .feature-card h3 {
-            margin-bottom: 15px;
-            color: var(--secondary);
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
         }
         
-        /* 关于区域 */
-        .about {
-            padding: 80px 0;
-            background: white;
-        }
-        
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-        
-        .about-image {
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-        
-        .about-image img {
+        /* 用户登录/注册模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: auto;
-            display: block;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: modalOpen 0.4s ease;
+        }
+        
+        @keyframes modalOpen {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            padding: 25px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e8e8e8;
+            position: relative;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            text-align: center;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
             transition: var(--transition);
         }
         
-        .about-image:hover img {
-            transform: scale(1.05);
+        .close-modal:hover {
+            color: var(--warning);
         }
         
-        .about-content h2 {
-            font-size: 2.2rem;
-            color: var(--secondary);
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .form-group {
             margin-bottom: 20px;
         }
         
-        .about-content p {
-            margin-bottom: 20px;
-            color: #555;
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
         }
         
-        /* 联系区域 */
-        .contact {
-            padding: 80px 0;
-            background: linear-gradient(to right, #4361ee, #3a0ca3);
-            color: white;
-        }
-        
-        .contact .section-title h2 {
-            color: white;
-        }
-        
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-        }
-        
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-        }
-        
-        .contact-icon {
-            font-size: 1.5rem;
-            color: var(--accent);
-        }
-        
-        .contact-form .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .contact-form input,
-        .contact-form textarea {
+        .form-control {
             width: 100%;
             padding: 12px 15px;
-            border-radius: var(--radius);
-            border: none;
-            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: var(--transition);
         }
         
-        .contact-form textarea {
-            height: 150px;
-            resize: vertical;
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+        }
+        
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .submit-btn:hover {
+            background: var(--secondary);
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gray);
+        }
+        
+        .form-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
         }
         
         /* 页脚 */
         footer {
             background: var(--dark);
-            color: white;
-            padding: 60px 0 20px;
+            color: #e8eaed;
+            padding: 50px 0 20px;
         }
         
-        .footer-grid {
+        .footer-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
+            gap: 30px;
             margin-bottom: 40px;
         }
         
         .footer-col h3 {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             margin-bottom: 20px;
-            color: var(--accent);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-links a {
-            color: #ccc;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        
-        .footer-links a:hover {
-            color: var(--accent);
-            padding-left: 5px;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
             color: white;
-            text-decoration: none;
-            transition: var(--transition);
         }
         
-        .social-links a:hover {
-            background: var(--accent);
-            transform: translateY(-5px);
+        .footer-col p {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+        
+        .contact-info {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .contact-icon {
+            margin-right: 10px;
+            color: var(--accent);
         }
         
         .copyright {
             text-align: center;
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #aaa;
+            color: #9aa0a6;
             font-size: 0.9rem;
         }
         
         /* 响应式设计 */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
-            .about-grid,
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            
-            .about-image {
-                max-width: 80%;
-                margin: 0 auto;
-            }
-        }
-        
         @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            nav {
+                order: 3;
+                width: 100%;
+                margin-top: 15px;
+            }
+            
             nav ul {
-                display: none;
+                justify-content: center;
             }
             
-            .mobile-menu-btn {
-                display: block;
+            nav ul li {
+                margin: 0 10px;
             }
             
-            .hero {
-                padding: 80px 0;
+            .user-actions {
+                margin-left: auto;
             }
             
-            .hero h1 {
-                font-size: 2.2rem;
+            .search-title {
+                font-size: 1.8rem;
             }
             
-            .feature-card {
-                padding: 20px;
+            .search-description {
+                font-size: 1rem;
             }
         }
         
         @media (max-width: 576px) {
-            .hero {
-                padding: 60px 0;
+            .search-box {
+                flex-direction: column;
+                background: transparent;
+                box-shadow: none;
             }
             
-            .hero h1 {
-                font-size: 1.8rem;
+            .search-input {
+                border-radius: 8px;
+                margin-bottom: 10px;
             }
             
-            .btn {
-                display: block;
-                width: 80%;
-                margin: 10px auto;
+            .search-btn {
+                border-radius: 8px;
+                padding: 14px;
             }
             
-            .section-title h2 {
-                font-size: 2rem;
+            .user-actions .btn-text {
+                display: none;
+            }
+            
+            .btn-login, .btn-register {
+                padding: 8px 15px;
             }
         }
     </style>
@@ -445,250 +595,345 @@
     <header>
         <div class="container header-container">
             <div class="logo">
-                <i class="fas fa-rocket"></i>
-                <span>ModernWeb</span>
+                <i class="fas fa-flask"></i>
+                <div class="logo-text">Lab<span>Inventory</span></div>
             </div>
+            
             <nav>
                 <ul>
-                    <li><a href="#home">首页</a></li>
-                    <li><a href="#features">特性</a></li>
-                    <li><a href="#about">关于</a></li>
-                    <li><a href="#contact">联系我们</a></li>
+                    <li><a href="#" class="active">首页</a></li>
+                    <li><a href="#">产品数据库</a></li>
+                    <li><a href="#">仪器设备</a></li>
+                    <li><a href="#">化学试剂</a></li>
+                    <li><a href="#">耗材管理</a></li>
                 </ul>
             </nav>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
+            
+            <div class="user-actions">
+                <button class="btn btn-login" id="loginBtn"><i class="fas fa-sign-in-alt"></i> <span class="btn-text">登录</span></button>
+                <button class="btn btn-register" id="registerBtn"><i class="fas fa-user-plus"></i> <span class="btn-text">注册</span></button>
+                
+                <!-- 登录后显示 -->
+                <!--
+                <div class="user-profile">
+                    <div class="user-avatar">张</div>
+                    <span>张研究员</span>
+                </div>
+                -->
+            </div>
         </div>
     </header>
 
-    <!-- 英雄区域 -->
-    <section class="hero" id="home">
-        <div class="container">
-            <h1>创建现代化响应式网站</h1>
-            <p>我们提供专业的网站设计与开发服务，打造用户体验卓越的现代网页应用，助力您的业务在数字世界中脱颖而出。</p>
-            <a href="#features" class="btn">了解更多</a>
-            <a href="#contact" class="btn btn-outline">联系我们</a>
-        </div>
-    </section>
-
-    <!-- 特性区域 -->
-    <section class="features" id="features">
-        <div class="container">
-            <div class="section-title">
-                <h2>核心特性</h2>
-                <p>我们的解决方案具备以下卓越特性，为您提供全方位的数字化支持</p>
+    <!-- 搜索区域 -->
+    <section class="search-section">
+        <div class="container search-container">
+            <h1 class="search-title">实验室产品数据库</h1>
+            <p class="search-description">快速查找实验室仪器、试剂、耗材等产品信息，支持多种筛选条件</p>
+            
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="输入产品名称、型号或关键词...">
+                <button class="search-btn"><i class="fas fa-search"></i> 搜索产品</button>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>完全响应式</h3>
-                    <p>自适应各种屏幕尺寸，从手机到桌面设备，提供一致的用户体验。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>极速性能</h3>
-                    <p>优化代码和资源加载，确保网站快速加载，提升用户留存率。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h3>安全可靠</h3>
-                    <p>采用最新的安全标准和技术，保护您的数据和用户隐私。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3>SEO优化</h3>
-                    <p>遵循SEO最佳实践，帮助您的网站在搜索引擎中获得更好排名。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-paint-brush"></i>
-                    </div>
-                    <h3>现代设计</h3>
-                    <p>采用最新的设计趋势，打造视觉吸引力和用户体验兼备的界面。</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-cog"></i>
-                    </div>
-                    <h3>易于维护</h3>
-                    <p>模块化代码结构和清晰文档，使网站维护和更新变得简单高效。</p>
-                </div>
+            
+            <div class="search-filters">
+                <button class="filter-btn active">全部产品</button>
+                <button class="filter-btn">分析仪器</button>
+                <button class="filter-btn">化学试剂</button>
+                <button class="filter-btn">实验耗材</button>
+                <button class="filter-btn">安全设备</button>
+                <button class="filter-btn">玻璃器皿</button>
             </div>
         </div>
     </section>
 
-    <!-- 关于区域 -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="关于我们">
+    <!-- 产品展示区 -->
+    <section class="container">
+        <h2 class="section-title">热门实验室产品</h2>
+        
+        <div class="products-container">
+            <!-- 产品卡片 1 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <i class="fas fa-microscope"></i>
                 </div>
-                <div class="about-content">
-                    <h2>关于我们</h2>
-                    <p>我们是一支充满激情的技术团队，致力于为全球客户提供高质量的网站设计与开发服务。成立于2015年，我们已经成功交付了超过200个网站项目。</p>
-                    <p>我们的使命是通过创新的技术解决方案帮助企业实现数字化转型。我们相信优秀的设计和卓越的用户体验是成功网站的关键要素。</p>
-                    <p>无论您是需要一个简单的企业网站，还是复杂的企业级应用，我们都能为您提供定制化的解决方案，满足您的业务需求。</p>
-                    <a href="#contact" class="btn">联系我们</a>
+                <div class="product-info">
+                    <div class="product-category">分析仪器</div>
+                    <h3 class="product-name">精密电子显微镜</h3>
+                    <div class="product-specs">
+                        <div class="spec-item"><i class="fas fa-ruler"></i> 分辨率: 0.1nm</div>
+                        <div class="spec-item"><i class="fas fa-bolt"></i> 电压: 200kV</div>
+                        <div class="spec-item"><i class="fas fa-weight"></i> 重量: 85kg</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">¥ 286,500</div>
+                        <div class="product-actions">
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-cart-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 产品卡片 2 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <i class="fas fa-vial"></i>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">化学试剂</div>
+                    <h3 class="product-name">高纯度硫酸 (H₂SO₄)</h3>
+                    <div class="product-specs">
+                        <div class="spec-item"><i class="fas fa-flask"></i> 纯度: 99.99%</div>
+                        <div class="spec-item"><i class="fas fa-prescription-bottle"></i> 规格: 500mL</div>
+                        <div class="spec-item"><i class="fas fa-tint"></i> 浓度: 98%</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">¥ 128.00</div>
+                        <div class="product-actions">
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-cart-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 产品卡片 3 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <i class="fas fa-temperature-high"></i>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">实验室设备</div>
+                    <h3 class="product-name">恒温培养箱</h3>
+                    <div class="product-specs">
+                        <div class="spec-item"><i class="fas fa-thermometer-half"></i> 温度范围: 5-80°C</div>
+                        <div class="spec-item"><i class="fas fa-box"></i> 容量: 120L</div>
+                        <div class="spec-item"><i class="fas fa-tachometer-alt"></i> 精度: ±0.1°C</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">¥ 8,900</div>
+                        <div class="product-actions">
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-cart-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 产品卡片 4 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <i class="fas fa-wind"></i>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">安全设备</div>
+                    <h3 class="product-name">生物安全柜</h3>
+                    <div class="product-specs">
+                        <div class="spec-item"><i class="fas fa-shield-alt"></i> 安全等级: II级</div>
+                        <div class="spec-item"><i class="fas fa-ruler-combined"></i> 尺寸: 120×80×100cm</div>
+                        <div class="spec-item"><i class="fas fa-filter"></i> HEPA过滤</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">¥ 42,300</div>
+                        <div class="product-actions">
+                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn"><i class="fas fa-cart-plus"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 联系区域 -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <div class="section-title">
-                <h2>联系我们</h2>
-                <p>我们期待听到您的需求，请随时与我们联系</p>
+    <!-- 登录模态框 -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">用户登录</h2>
+                <button class="close-modal" id="closeLogin">&times;</button>
             </div>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div>
-                            <h3>地址</h3>
-                            <p>北京市海淀区科技园区88号</p>
-                        </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <input type="text" id="username" class="form-control" placeholder="请输入用户名" required>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div>
-                            <h3>电话</h3>
-                            <p>+86 10 8888 7777</p>
-                        </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" id="password" class="form-control" placeholder="请输入密码" required>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div>
-                            <h3>邮箱</h3>
-                            <p>contact@modernweb.com</p>
-                        </div>
+                    <div class="form-group">
+                        <button type="submit" class="submit-btn">登录</button>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div>
-                            <h3>工作时间</h3>
-                            <p>周一至周五: 9:00 - 18:00</p>
-                        </div>
+                    <div class="form-footer">
+                        还没有账号？<a href="#" id="switchToRegister">立即注册</a>
                     </div>
-                </div>
-                <div class="contact-form">
-                    <form>
-                        <div class="form-group">
-                            <input type="text" placeholder="您的姓名" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" placeholder="您的邮箱" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" placeholder="主题">
-                        </div>
-                        <div class="form-group">
-                            <textarea placeholder="您的留言" required></textarea>
-                        </div>
-                        <button type="submit" class="btn">发送消息</button>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+
+    <!-- 注册模态框 -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">创建新账户</h2>
+                <button class="close-modal" id="closeRegister">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="fullname">姓名</label>
+                        <input type="text" id="fullname" class="form-control" placeholder="请输入您的姓名" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">邮箱</label>
+                        <input type="email" id="email" class="form-control" placeholder="请输入邮箱地址" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">密码</label>
+                        <input type="password" id="newPassword" class="form-control" placeholder="设置密码（至少6位）" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">确认密码</label>
+                        <input type="password" id="confirmPassword" class="form-control" placeholder="请再次输入密码" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="institution">单位/机构</label>
+                        <input type="text" id="institution" class="form-control" placeholder="请输入您的单位或机构">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="submit-btn">注册账户</button>
+                    </div>
+                    <div class="form-footer">
+                        已有账号？<a href="#" id="switchToLogin">立即登录</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- 页脚 -->
     <footer>
         <div class="container">
-            <div class="footer-grid">
+            <div class="footer-container">
                 <div class="footer-col">
-                    <h3>ModernWeb</h3>
-                    <p>我们提供专业的网站设计与开发服务，致力于为客户创造卓越的数字化体验。</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
+                    <h3>关于 LabInventory</h3>
+                    <p>实验室产品管理系统，为科研机构、高校实验室提供专业的设备、试剂和耗材管理解决方案。</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>联系我们</h3>
+                    <div class="contact-info">
+                        <i class="fas fa-map-marker-alt contact-icon"></i>
+                        <p>北京市海淀区科学院南路88号</p>
+                    </div>
+                    <div class="contact-info">
+                        <i class="fas fa-phone contact-icon"></i>
+                        <p>+86 10 8888 7777</p>
+                    </div>
+                    <div class="contact-info">
+                        <i class="fas fa-envelope contact-icon"></i>
+                        <p>support@labinventory.com</p>
                     </div>
                 </div>
+                
                 <div class="footer-col">
                     <h3>快速链接</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">首页</a></li>
-                        <li><a href="#features">特性</a></li>
-                        <li><a href="#about">关于我们</a></li>
-                        <li><a href="#contact">联系我们</a></li>
-                        <li><a href="#">隐私政策</a></li>
-                    </ul>
+                    <p><a href="#">产品数据库</a></p>
+                    <p><a href="#">仪器设备</a></p>
+                    <p><a href="#">化学试剂</a></p>
+                    <p><a href="#">耗材管理</a></p>
                 </div>
-                <div class="footer-col">
-                    <h3>服务项目</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">网站设计</a></li>
-                        <li><a href="#">应用开发</a></li>
-                        <li><a href="#">UI/UX设计</a></li>
-                        <li><a href="#">SEO优化</a></li>
-                        <li><a href="#">网站维护</a></li>
-                    </ul>
-                </div>
+                
                 <div class="footer-col">
                     <h3>订阅更新</h3>
-                    <p>订阅我们的通讯，获取最新技术和行业动态。</p>
-                    <form>
-                        <div class="form-group">
-                            <input type="email" placeholder="您的邮箱" required>
-                        </div>
-                        <button type="submit" class="btn">订阅</button>
-                    </form>
+                    <p>订阅我们的产品更新通知</p>
+                    <div class="search-box" style="margin-top: 15px;">
+                        <input type="email" class="search-input" placeholder="您的邮箱地址">
+                        <button class="search-btn">订阅</button>
+                    </div>
                 </div>
             </div>
+            
             <div class="copyright">
-                <p>&copy; 2023 ModernWeb. 保留所有权利。</p>
+                <p>&copy; 2023 LabInventory 实验室产品管理系统. 保留所有权利.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // 简单的滚动效果
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+        // 登录/注册模态框控制
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const closeLogin = document.getElementById('closeLogin');
+        const closeRegister = document.getElementById('closeRegister');
+        const switchToRegister = document.getElementById('switchToRegister');
+        const switchToLogin = document.getElementById('switchToLogin');
+        
+        loginBtn.addEventListener('click', () => {
+            loginModal.classList.add('active');
         });
         
-        // 移动菜单切换
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navMenu = document.querySelector('nav ul');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+        registerBtn.addEventListener('click', () => {
+            registerModal.classList.add('active');
         });
         
-        // 响应式调整
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                navMenu.style.display = 'flex';
-            } else {
-                navMenu.style.display = 'none';
+        closeLogin.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+        });
+        
+        closeRegister.addEventListener('click', () => {
+            registerModal.classList.remove('active');
+        });
+        
+        switchToRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.classList.remove('active');
+            registerModal.classList.add('active');
+        });
+        
+        switchToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerModal.classList.remove('active');
+            loginModal.classList.add('active');
+        });
+        
+        // 关闭模态框 - 点击外部区域
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('active');
             }
+            if (e.target === registerModal) {
+                registerModal.classList.remove('active');
+            }
+        });
+        
+        // 表单提交处理
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // 这里添加实际的登录逻辑
+            alert('登录功能已触发，实际应用中会连接后端API');
+            loginModal.classList.remove('active');
+        });
+        
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // 这里添加实际的注册逻辑
+            alert('注册功能已触发，实际应用中会连接后端API');
+            registerModal.classList.remove('active');
+        });
+        
+        // 筛选按钮激活状态
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                // 这里添加实际的筛选逻辑
+            });
         });
     </script>
 </body>
